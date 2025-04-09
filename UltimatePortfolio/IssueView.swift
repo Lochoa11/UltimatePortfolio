@@ -66,12 +66,16 @@ struct IssueView: View {
                 VStack(alignment: .leading) {
                     Text("Basic Information")
                         .font(.title2)
+                        .foregroundStyle(.secondary)
                     
                     TextField("Description", text: $issue.issueContent, prompt: Text("Enter the issue description here"), axis: .vertical)
                 }
             }
         }
         .disabled(issue.isDeleted)
+        .onReceive(issue.objectWillChange) { _ in
+            dataController.queueSave()
+        }
     }
 }
 
