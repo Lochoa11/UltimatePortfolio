@@ -76,11 +76,12 @@ class DataController: ObservableObject {
     func queueSave() {
         saveTask?.cancel()
         
-        saveTask = Task {
+        saveTask = Task { @MainActor in
             try await Task.sleep(for: .seconds(3))
             save()
         }
     }
+    
     func delete(_ object: NSManagedObject) {
         objectWillChange.send()
         container.viewContext.delete(object)
